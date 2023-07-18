@@ -1,0 +1,22 @@
+
+name: "Runner new release"
+
+on:
+  workflow_dispatch:
+
+  push:
+    paths:
+      - 'runner/**'
+      - '.github/workflows/runner-new-release.yaml'
+
+jobs:
+
+  build-and-push:
+    runs-on: builder
+    steps:
+    - uses: actions/checkout@v3
+    - run: |
+        docker login -u  ${{ secrets.DOCKERHUB_USER }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+        cd runner
+        make build
+        make push
