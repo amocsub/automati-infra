@@ -47,20 +47,17 @@ RUN apt-get update -y \
     zip \
     zstd \
     && ln -sf /usr/bin/python3 /usr/bin/python \
-    && ln -sf /usr/bin/pip3 /usr/bin/pip \
-    && rm -rf /var/lib/apt/lists/*
+    && ln -sf /usr/bin/pip3 /usr/bin/pip
 
 ###############################################################################################################################################################################
 # ADD YOUR TOOLS HERE - Is indeed a copy of https://github.com/actions/actions-runner-controller/blob/master/runner/actions-runner.ubuntu-20.04.dockerfile with some extras
 ###############################################################################################################################################################################
 
-# Install additional packages
-RUN apt-get install -y --no-install-recommends \
+# Install additional dependencies
+RUN apt-get update -y && apt-get install -y --no-install-recommends \
     apt-transport-https \
-    gnupg
-
-# Install libpcap-dev package
-RUN apt-get install -y --no-install-recommends libpcap-dev
+    gnupg \
+    libpcap-dev
 
 # Install google cloud
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
@@ -82,6 +79,9 @@ RUN go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
 RUN go install -v github.com/projectdiscovery/notify/cmd/notify@latest
 RUN go install -v github.com/tomnomnom/anew@latest
 RUN mv /root/go/bin/* /usr/local/go/bin
+
+# Remove apt lists as expected
+RUN rm -rf /var/lib/apt/lists/*
 ###############################################################################################################################################################################
 
 RUN adduser --disabled-password --gecos "" --uid $RUNNER_UID runner \
