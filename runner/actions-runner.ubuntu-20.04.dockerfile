@@ -53,11 +53,14 @@ RUN apt-get update -y \
 ###############################################################################################################################################################################
 # ADD YOUR TOOLS HERE - Is indeed a copy of https://github.com/actions/actions-runner-controller/blob/master/runner/actions-runner.ubuntu-20.04.dockerfile with some extras
 ###############################################################################################################################################################################
-# Install some deps
+
+# Install additional packages
 RUN apt-get install -y --no-install-recommends \
     apt-transport-https \
-    libpcap-dev \
     gnupg
+
+# Install libpcap-dev package
+RUN apt-get install -y --no-install-recommends libpcap-dev
 
 # Install google cloud
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list \
