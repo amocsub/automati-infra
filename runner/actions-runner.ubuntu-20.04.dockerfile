@@ -47,7 +47,8 @@ RUN apt-get update -y \
     zip \
     zstd \
     && ln -sf /usr/bin/python3 /usr/bin/python \
-    && ln -sf /usr/bin/pip3 /usr/bin/pip
+    && ln -sf /usr/bin/pip3 /usr/bin/pip \
+    && rm -rf /var/lib/apt/lists/*
 
 ###############################################################################################################################################################################
 # ADD YOUR TOOLS HERE - Is indeed a copy of https://github.com/actions/actions-runner-controller/blob/master/runner/actions-runner.ubuntu-20.04.dockerfile with some extras
