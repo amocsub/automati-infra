@@ -18,7 +18,7 @@ variable "region" {
 }
 
 ######################################################################
-## GitHub related data
+## Github related data
 ######################################################################
 
 variable "repository_name_with_owner" {
@@ -47,7 +47,7 @@ variable "req_runner_ephemeral_disk" {
 
 variable "min_replicas" {
   default     = 1
-  description = "Minimum amount of replicas to keep always up"
+  description = "Minimum amount of replicas to keep always up, can also be set up to 0"
 }
 
 variable "max_replicas" {
@@ -56,6 +56,6 @@ variable "max_replicas" {
 }
 
 variable "teardown_time" {
-  default     = "30m"
+  default     = "10m"
   description = "Maximum time to wait until a new job to shoutdown the inactive pod"
 }

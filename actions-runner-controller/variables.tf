@@ -18,22 +18,22 @@ variable "region" {
 }
 
 ######################################################################
-## GitHub related data
+## Github related data
 ######################################################################
 
 variable "github_app_id" {
   # default     = "PUT-HERE-YOUR-GITHUB-APP-ID"
-  description = "The ID of your GitHub App. From the following url you would find it out if you installed the app with the name automati. https://github.com/settings/apps/automati-app"
+  description = "The ID of your Github App. From the following url you would find it out if you installed the app with the name automati. https://github.com/settings/apps/automati-app"
 }
 
 variable "github_app_installation_id" {
   # default     = "PUT-HERE-YOUR-GITHUB-APP-INSTALLATION-ID
-  description = "The ID of your GitHub App installation. Once you have your app installed at https://github.com/settings/installations if you go to your app the id would be the last path in the URL"
+  description = "The ID of your Github App installation. Once you have your app installed at https://github.com/settings/installations if you go to your app the id would be the last path in the URL"
 }
 
 variable "github_app_private_key" {
   # default     = "PUT-HERE-YOUR-GITHUB-APP-PRIVATE-KEY-PATH"
-  description = "GitHub App's private key file path. You can generate it from https://github.com/settings/apps/automati-app clicking on 'Generate a private key' button "
+  description = "Github App's private key file path. You can generate it from https://github.com/settings/apps/automati-app clicking on 'Generate a private key' button "
 }
 
 variable "enable_github_webhook_server" {
@@ -43,7 +43,7 @@ variable "enable_github_webhook_server" {
 
 variable "github_webhook_secret_token" {
   # default     = "PUT-HERE-YOUR-WEBHOOK-SECRET-TOKEN"
-  description = "GitHub WebHook Secret Token. You can generate it with https://passwordsgenerator.net/ and it's going to be used for the webhooks"
+  description = "Github WebHook Secret Token. You can generate it with https://passwordsgenerator.net/ and it's going to be used for the webhooks"
 }
 
 ######################################################################
