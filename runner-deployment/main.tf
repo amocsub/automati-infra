@@ -9,7 +9,6 @@ resource "kubernetes_manifest" "runner-deployment" {
     "spec" = {
       "template" = {
         "spec" = {
-          "serviceAccountName" = "automati-k8s-sa"
           "repository"         = "${var.repository_name_with_owner}"
           "labels"             = ["automati"]
           "dockerEnabled"      = false
