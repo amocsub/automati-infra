@@ -1,6 +1,6 @@
-################################################################################################################################################################################################################
+######################################################################
 ## Setup 
-################################################################################################################################################################################################################
+######################################################################
 
 variable "kubernetes_config_file" {
   default     = "~/.kube/config"
@@ -8,26 +8,31 @@ variable "kubernetes_config_file" {
 }
 
 variable "project_id" {
-  description = "GCP project ID where the infraestructure was created"
+  # default     = "PUT-HERE-YOUR-GCP-PROJECT-ID"
+  description = "GCP project ID where the infrastructure was created"
 }
 
 variable "region" {
-  description = "GCP region where the infraestructure was created"
+  # default     = "PUT-HERE-YOUR-GCP-REGION"
+  description = "GCP region where the infrastructure was created"
 }
 
-################################################################################################################################################################################################################
+######################################################################
 ## GitHub related data
-################################################################################################################################################################################################################
+######################################################################
 
 variable "github_app_id" {
+  # default     = "PUT-HERE-YOUR-GITHUB-APP-ID"
   description = "The ID of your GitHub App. From the following url you would find it out if you installed the app with the name automati. https://github.com/settings/apps/automati-app"
 }
 
 variable "github_app_installation_id" {
+  # default     = "PUT-HERE-YOUR-GITHUB-APP-INSTALLATION-ID
   description = "The ID of your GitHub App installation. Once you have your app installed at https://github.com/settings/installations if you go to your app the id would be the last path in the URL"
 }
 
 variable "github_app_private_key" {
+  # default     = "PUT-HERE-YOUR-GITHUB-APP-PRIVATE-KEY-PATH"
   description = "GitHub App's private key file path. You can generate it from https://github.com/settings/apps/automati-app clicking on 'Generate a private key' button "
 }
 
@@ -37,12 +42,13 @@ variable "enable_github_webhook_server" {
 }
 
 variable "github_webhook_secret_token" {
+  # default     = "PUT-HERE-YOUR-WEBHOOK-SECRET-TOKEN"
   description = "GitHub WebHook Secret Token. You can generate it with https://passwordsgenerator.net/ and it's going to be used for the webhooks"
 }
 
-################################################################################################################################################################################################################
+######################################################################
 ## Runner resource definitions
-################################################################################################################################################################################################################
+######################################################################
 
 variable "runner_docker_image" {
   default     = "buscoma/automati-runner:ubuntu-20.04"

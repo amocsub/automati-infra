@@ -63,22 +63,6 @@ resource "helm_release" "actions-runner-controller-public" {
   }
 
   set {
-    name  = "serviceAccount.create"
-    value = true
-    type  = "auto"
-  }
-
-  set {
-    name  = "serviceAccount.annotations.iam\\.gke\\.io/gcp-service-account"
-    value = "automati-k8s-sa@${var.project_id}.iam.gserviceaccount.com"
-  }
-
-  set {
-    name  = "serviceAccount.name"
-    value = "automati-k8s-sa"
-  }
-
-  set {
     name  = "securityContext.privileged"
     value = false
     type  = "auto"
