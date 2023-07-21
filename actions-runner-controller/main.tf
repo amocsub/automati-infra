@@ -24,160 +24,101 @@ resource "helm_release" "actions-runner-controller-public" {
   version          = "0.23.3"
   create_namespace = true
   cleanup_on_fail  = true
-  
+
   set_list {
-    name = "labels"
+    name  = "labels"
     value = ["automati"]
   }
 
   set {
-    name = "authSecret.create"
+    name  = "authSecret.create"
     value = true
-    type = "auto"
+    type  = "auto"
   }
 
   set_sensitive {
-    name = "authSecret.github_app_id"
+    name  = "authSecret.github_app_id"
     value = var.github_app_id
   }
 
   set_sensitive {
-    name = "authSecret.github_app_installation_id"
+    name  = "authSecret.github_app_installation_id"
     value = var.github_app_installation_id
   }
 
   set_sensitive {
-    name = "authSecret.github_app_private_key"
+    name  = "authSecret.github_app_private_key"
     value = file("${var.github_app_private_key}")
   }
 
   set {
-    name = "image.actionsRunnerRepositoryAndTag"
+    name  = "image.actionsRunnerRepositoryAndTag"
     value = var.runner_docker_image
   }
 
   set {
-    name = "runner.statusUpdateHook.enabled"
+    name  = "runner.statusUpdateHook.enabled"
     value = true
-    type = "auto"
+    type  = "auto"
   }
 
   set {
-    name = "serviceAccount.create"
+    name  = "serviceAccount.create"
     value = true
-    type = "auto"
+    type  = "auto"
   }
 
   set {
-    name = "serviceAccount.annotations.iam\\.gke\\.io/gcp-service-account"
+    name  = "serviceAccount.annotations.iam\\.gke\\.io/gcp-service-account"
     value = "automati-k8s-sa@${var.project_id}.iam.gserviceaccount.com"
   }
 
   set {
-    name = "serviceAccount.name"
+    name  = "serviceAccount.name"
     value = "automati-k8s-sa"
   }
 
   set {
-    name = "securityContext.privileged"
+    name  = "securityContext.privileged"
     value = false
-    type = "auto"
+    type  = "auto"
   }
 
   set {
-    name = "resources.requests.cpu"
+    name  = "resources.requests.cpu"
     value = var.max_runner_cpu
   }
 
   set {
-    name = "resources.requests.memory"
+    name  = "resources.requests.memory"
     value = var.max_runner_memory
   }
 
   set {
-    name = "resources.requests.ephemeral-storage"
+    name  = "resources.requests.ephemeral-storage"
     value = var.max_runner_ephemeral_disk
   }
 
   set {
-    name = "githubWebhookServer.enabled"
+    name  = "githubWebhookServer.enabled"
     value = var.enable_github_webhook_server
-    type = "auto"
+    type  = "auto"
   }
 
   set {
-    name = "githubWebhookServer.service.type"
+    name  = "githubWebhookServer.service.type"
     value = "LoadBalancer"
   }
 
   set {
-    name = "githubWebhookServer.service.annotations.cloud\\.google\\.com/load-balancer-type"
+    name  = "githubWebhookServer.service.annotations.cloud\\.google\\.com/load-balancer-type"
     value = "External"
   }
 
   set_sensitive {
-    name = "githubWebhookServer.secret.github_webhook_secret_token"
+    name  = "githubWebhookServer.secret.github_webhook_secret_token"
     value = var.github_webhook_secret_token
   }
 
   depends_on = [helm_release.cert-manager]
-}
-
-resource "kubernetes_manifest" "runner-deployment" {
-  manifest = {
-    "apiVersion" = "actions.summerwind.dev/v1alpha1"
-    "kind"       = "RunnerDeployment"
-    "metadata" = {
-      "name"      = "automati-runner"
-      "namespace" = "actions-runner-system"
-    }
-    "spec" = {
-      "template" = {
-        "spec" = {
-          "serviceAccountName" = "automati-k8s-sa"
-          "repository" = "amocsub/automati"
-          "labels" = ["automati"]
-          "dockerEnabled" = false
-          "resources" = {
-            "requests" = {
-              "cpu" = "${var.req_runner_cpu}"
-              "memory" = "${var.req_runner_memory}"
-              "ephemeral-storage" = "${var.req_runner_ephemeral_disk}"
-            }
-          }
-        }
-      }
-    }
-  }
-
-  depends_on = [helm_release.actions-runner-controller-public]
-}
-
-resource "kubernetes_manifest" "horizontal-runner-autoscaler" {
-  manifest = {
-    "apiVersion" = "actions.summerwind.dev/v1alpha1"
-    "kind" = "HorizontalRunnerAutoscaler"
-    "metadata" = {
-      "name" = "automati-autoscaler"
-      "namespace" = "actions-runner-system"
-    }
-    "spec" = {
-      "minReplicas" = var.min_replicas
-      "maxReplicas" = var.max_replicas
-      "scaleTargetRef" = {
-        "kind" = "RunnerDeployment"
-        "name" = "automati-runner"
-      }
-      "scaleUpTriggers" = [
-        {
-          "githubEvent" = {
-            "workflowJob" = {}
-          }
-          "duration" = "${var.teardown_time}"
-        }
-      ]
-    }
-  }
-
-  depends_on = [kubernetes_manifest.runner-deployment]
 }
