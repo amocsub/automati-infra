@@ -23,7 +23,7 @@ variable "region" {
 
 variable "github_app_id" {
   # default     = "PUT-HERE-YOUR-GITHUB-APP-ID"
-  description = "The ID of your Github App. From the following url you would find it out if you installed the app with the name automati. https://github.com/settings/apps/automati-app"
+  description = "The ID of your Github App. From the following url you would find it out if you installed the app with the you provided. https://github.com/settings/apps/APP_NAME"
 }
 
 variable "github_app_installation_id" {
@@ -33,7 +33,7 @@ variable "github_app_installation_id" {
 
 variable "github_app_private_key" {
   # default     = "PUT-HERE-YOUR-GITHUB-APP-PRIVATE-KEY-PATH"
-  description = "Github App's private key file path. You can generate it from https://github.com/settings/apps/automati-app clicking on 'Generate a private key' button "
+  description = "Github App's private key file path. You can generate it from https://github.com/settings/apps/APP_NAME clicking on 'Generate a private key' button "
 }
 
 variable "enable_github_webhook_server" {
